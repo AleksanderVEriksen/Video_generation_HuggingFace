@@ -18,11 +18,15 @@ def generate_video(prompt, negative_prompt, video_name):
     Returns the filename and the elapsed time as a string.
     """
     start_time = time.time()
+    if video_name == "":
+        filename = "output.mp4"
     # Ensure the filename ends with .mp4
     if not video_name.lower().endswith('.mp4'):
         filename = video_name + '.mp4'
     else:
         filename = video_name
+    # If video name contains a space, replace it with an underscore
+    filename = filename.replace(" ", "_")
     output = pipe(
         prompt=prompt,
         negative_prompt=negative_prompt,
@@ -52,7 +56,7 @@ with gr.Blocks() as Video_app:
         with gr.Column():
             prompt = gr.Textbox(label="Video prompt", lines=2, placeholder="Description of a video to be generated", value="A frog on a bike drinking coffee")
             negative_prompt = gr.Textbox(label="Negative Prompt", lines=2, placeholder="Describe what to avoid in the video...", value="Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards")
-            video_name = gr.Textbox(label="Video name (without .mp4)", lines=1, placeholder="Name of the video to be generated, e.g. 'myvideo'")
+            video_name = gr.Textbox(label="Video name (without .mp4)", lines=1, placeholder="Name of the video to be generated, e.g. 'my video'")
             generate_btn = gr.Button("Generate Video")
             exit_btn = gr.Button("Exit", variant="stop")
         with gr.Column():
