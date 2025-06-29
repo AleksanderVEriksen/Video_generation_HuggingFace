@@ -39,6 +39,9 @@ def generate_video(prompt, negative_prompt, video_name):
 def shutdown():
     """Shutdown the Gradio app and Python process."""
     print("Shutting down...")
+    # Close all Gradio interfaces
+    if 'Video_app' in globals():
+        Video_app.close()
     gr.close_all()
     sys.exit(0)
 
